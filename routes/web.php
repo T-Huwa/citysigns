@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\SignController;
+use App\Http\Controllers\UpdateController;
 use App\Http\Controllers\UserController;
 use App\Models\Repair;
 use Illuminate\Foundation\Application;
@@ -20,6 +21,9 @@ Route::get('/', function () {
     ]);
 });
 
+// All Signs API endpoint
+Route::get('/signs/api', [SignController::class, 'api'])->name('signs.api');
+
 Route::get('/dashboard', [SignController::class, 'renderDashboard'])->middleware(['auth'])->name('dashboard');
 
 Route::prefix('users')->group(function(){
@@ -30,6 +34,9 @@ Route::prefix('users')->group(function(){
         ->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
 });
+
+//route for all informants
+Route::get('/informants', [UserController::class, 'informants'])->name('informants');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -59,5 +66,9 @@ Route::get('/requests', function (){
     }
     return Inertia::render('Requests', ['requests' => Repair::with(['user', 'sign'])->where('user_id', $user->id)->get()]);
 })->name('requests');
+
+Route::group(['prefix'=> 'updates'], function (){
+    Route::post('/store', [UpdateController::class,'store'])->name('updates.store');
+});
 
 require __DIR__.'/auth.php';

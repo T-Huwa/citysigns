@@ -76,6 +76,10 @@ class RepairController extends Controller
         $repair->status = 'completed';
         $repair->completion_date = now();
         $repair->save();
+        
+        $sign = Sign::find($repair->sign_id);
+        $sign->damageScale = 1;
+        $sign->save();
 
         return response()->json(['message' => 'Repair updated successfully']);
     }

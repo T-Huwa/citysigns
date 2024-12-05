@@ -35,4 +35,12 @@ class Repair extends Model
     {
         return $this->belongsTo(Sign::class);
     }
+
+    /**
+     * Get the signs that are being repaired.
+     */
+    public function signs()
+    {
+        return $this->hasMany(RepairJoin::class);
+    }
 }

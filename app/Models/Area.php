@@ -5,15 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sign extends Model
+class Area extends Model
 {
+
     use HasFactory;
 
     protected $fillable = [
-        'location',
-        'type',
-        'road',
-        'words',
-        'damageScale',
+        'name',
     ];
 }

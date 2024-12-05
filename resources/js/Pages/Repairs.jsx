@@ -14,7 +14,7 @@ import {
     IdentificationIcon,
 } from "@heroicons/react/24/outline"; // Heroicons
 import { UserCircleIcon } from "@heroicons/react/24/outline"; // Heroicons
-import { Head, router, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {
     IconCalendar,
@@ -27,7 +27,7 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import axios from "axios";
 
 export default function RepairsPage({ repairs }) {
-    const [editableRepair, setEditableRepair] = useState(null); // State to track which repair is being edited
+    const [editableRepair, setEditableRepair] = useState(null);
     const [notes, setNotes] = useState("");
     const [cost, setCost] = useState("");
 
@@ -99,26 +99,31 @@ export default function RepairsPage({ repairs }) {
                                         >
                                             <Typography
                                                 variant="body"
-                                                color="primary"
+                                                className="text-blue-600 border rounded-md p-1"
                                             >
                                                 {repair.status}
                                             </Typography>
-                                            <Box
-                                                display="flex"
-                                                alignItems="center"
+
+                                            <Link
+                                                href={`/signs/${repair.sign_id}`}
                                             >
-                                                <IconHash
-                                                    className="h-5 w-5 text-gray-400"
-                                                    aria-hidden="true"
-                                                />
-                                                <Typography
-                                                    variant="body2"
-                                                    ml={1}
-                                                    color="textSecondary"
+                                                <Box
+                                                    display="flex"
+                                                    alignItems="center"
                                                 >
-                                                    {repair.id}
-                                                </Typography>
-                                            </Box>
+                                                    <IconHash
+                                                        className="h-5 w-5 text-gray-400"
+                                                        aria-hidden="true"
+                                                    />
+                                                    <Typography
+                                                        variant="body2"
+                                                        ml={1}
+                                                        color="primary"
+                                                    >
+                                                        {repair.id}
+                                                    </Typography>
+                                                </Box>
+                                            </Link>
                                         </Box>
 
                                         {/* Officer and Sign Information */}
@@ -300,7 +305,7 @@ export default function RepairsPage({ repairs }) {
                                                     variant="body1"
                                                     className="dark:text-gray-200"
                                                 >
-                                                    {repair.sign.location}
+                                                    {repair.sign.road}
                                                 </Typography>
                                             </Grid>
                                             <Grid item xs={12}>

@@ -34,7 +34,7 @@ import {
     IconX as X,
 } from "@tabler/icons-react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { Box } from "@mui/system";
 
 const notifications = [
@@ -66,8 +66,6 @@ export default function Dashboard({ nearbySigns, assignedRequests }) {
             const response = await axios.put(
                 `/repairs/${request.id}/update-status`
             );
-            //console.log(response);
-
             setSnackbarMessage(response.data.message);
             setOpenSnackbar(true);
         } catch (error) {
@@ -125,7 +123,7 @@ export default function Dashboard({ nearbySigns, assignedRequests }) {
                                         >
                                             <ListItemText
                                                 className="dark:text-gray-200"
-                                                primary={`${request.sign.type} at ${request.sign.location}`}
+                                                primary={`${request.sign.type} at ${request.sign.road}`}
                                                 secondary={request.notes}
                                             />
                                             <div className="mt-2">
@@ -229,7 +227,7 @@ export default function Dashboard({ nearbySigns, assignedRequests }) {
                                                 <TableRow key={sign.id}>
                                                     <TableCell>
                                                         <Typography className="dark:text-gray-200">
-                                                            {sign.sign.location}
+                                                            {sign.sign.road}
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell>
@@ -246,11 +244,8 @@ export default function Dashboard({ nearbySigns, assignedRequests }) {
                                                         <IconButton
                                                             color="primary"
                                                             onClick={() => {
-                                                                setSnackbarMessage(
-                                                                    `Navigating to ${sign.signType} at ${sign.location}`
-                                                                );
-                                                                setOpenSnackbar(
-                                                                    true
+                                                                router.visit(
+                                                                    `/signs/${sign.id}`
                                                                 );
                                                             }}
                                                         >

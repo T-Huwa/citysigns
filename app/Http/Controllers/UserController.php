@@ -14,6 +14,13 @@ class UserController extends Controller
         ]);
     }
 
+    public function informants(){
+        return Inertia::render('Admin/Informants', [
+            'informants' => User::where('role', 'Informant')
+                                ->get(),
+        ]);
+    }
+
     public function changeStatus(Request $request)
     {
         $request->validate([

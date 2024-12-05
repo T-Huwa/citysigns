@@ -22,7 +22,7 @@ export default function LandingPage() {
                 {/* Text Section */}
                 <div className="md:w-1/2 w-full pr-0 md:pr-8 mb-8 md:mb-0 text-center md:text-left">
                     <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                        Road sign maintenance
+                        CitySigns
                     </h1>
                     <p className="text-lg md:text-xl mb-8">
                         Ensuring safety on the roads through expert maintenance

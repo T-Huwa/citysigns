@@ -20,6 +20,11 @@ class SignController extends Controller
         return Inertia::render('RoadSigns', ['signs' => Sign::all()]);
     }
 
+    public function api()
+    {
+        return response()->json(['signs' => Sign::all()]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -36,6 +41,7 @@ class SignController extends Controller
         $validator = Validator::make($request->all(), [
             'location' => 'required|string|max:255',
             'type' => 'required|string|max:255',
+            'street' => 'required|string|max:255',
             'words' => 'nullable|string|max:255',
             'damageScale' => 'required|integer|min:0|max:10',
         ]);
@@ -49,6 +55,7 @@ class SignController extends Controller
         $sign = new Sign();
         $sign->location = $request->location;
         $sign->type = $request->type;
+        $sign->road = $request->street;
         $sign->words = $request->words;
         $sign->damageScale = $request->damageScale;
         $sign->save();
@@ -127,12 +134,28 @@ class SignController extends Controller
                                     ->with(['sign', 'user'])
                                     ->get();
 
+            $assignments = Repair::where('status', 'in_progress')
+                                    ->with(['user'])
+                                    ->take(3)
+                                    ->get();
+
+            $recentUpdates = Sign::orderBy('updated_at', 'desc')
+                                    ->take(5)
+                                    ->get();
+
             return Inertia::render('Admin/Dashboard', [
                 'totalSigns' => $totalSigns,
                 'totalDamaged' => $totalDamaged,
                 'totalCompleted' => $totalCompleted,
                 'activeRequests' => $activeRequests,
+                'assignments' => $assignments,
+                'recentUpdates' => $recentUpdates,
             ]);
+        }
+
+        if($user->role === 'Informant'){
+            $signs = Sign::all();
+            return Inertia::render('Informant/Dashboard', ['signs' => $signs]);
         }
 
         $assignedRequests = Repair::where('user_id', $user->id)

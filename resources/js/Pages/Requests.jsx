@@ -28,13 +28,16 @@ import {
     IconEye as Eye,
 } from "@tabler/icons-react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import { Box } from "@mui/system";
+import axios from "axios";
 
 export default function Requests({ requests }) {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -73,6 +76,21 @@ export default function Requests({ requests }) {
                 return "success";
             default:
                 return "default";
+        }
+    };
+
+    const handleAccept = async (id) => {
+        try {
+            const response = await axios.put(`/repairs/${id}/update-status`);
+            setSnackbarMessage(response.data.message);
+            setOpenSnackbar(true);
+        } catch (error) {
+            console.log(error);
+
+            const errorMessage =
+                error.response?.data?.error || "Something went wrong";
+            setSnackbarMessage(errorMessage);
+            setOpenSnackbar(true);
         }
     };
 
@@ -143,7 +161,10 @@ export default function Requests({ requests }) {
                                             <TableRow key={request.id}>
                                                 <TableCell>
                                                     <Typography className="text-gray-500 dark:text-gray-400">
-                                                        {request.sign.location}
+                                                        {request.sign.road
+                                                            ? request.sign.road
+                                                            : request.sign
+                                                                  .location}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell>
@@ -177,6 +198,12 @@ export default function Requests({ requests }) {
                                                     >
                                                         <Eye size={20} />
                                                     </IconButton>
+                                                    <Link
+                                                        className="ml-3 text-blue-500"
+                                                        href={`/signs/${request.sign_id}`}
+                                                    >
+                                                        View Sign
+                                                    </Link>
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -202,7 +229,9 @@ export default function Requests({ requests }) {
                                     <MapPin size={20} className="mr-2" />
                                     <Typography variant="body1">
                                         Location:{" "}
-                                        {selectedRequest.sign.location}
+                                        {selectedRequest.sign.road
+                                            ? selectedRequest.sign.road
+                                            : selectedRequest.sign.location}
                                     </Typography>
                                 </div>
                                 <div className="flex items-center">

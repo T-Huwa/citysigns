@@ -9,25 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('signs', function (Blueprint $table) {
+        Schema::create('repair_join', function (Blueprint $table) {
             $table->id();
-            $table->string('location');
-            $table->string('type');
-            $table->string('road');
-            $table->string('words');
-            $table->integer('damageScale')->unsigned();
+            $table->foreignId('repair_id')->constrained()->onDelete('cascade'); 
+            $table->foreignId('sign_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('signs');
+        Schema::dropIfExists('repair_join');
     }
 };

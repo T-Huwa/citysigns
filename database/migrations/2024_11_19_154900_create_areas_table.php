@@ -9,25 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('signs', function (Blueprint $table) {
+        Schema::create('areas', function (Blueprint $table) {
             $table->id();
-            $table->string('location');
-            $table->string('type');
-            $table->string('road');
-            $table->string('words');
-            $table->integer('damageScale')->unsigned();
+            $table->text('name')->nullable();
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('signs');
+        Schema::dropIfExists('areas');
     }
 };

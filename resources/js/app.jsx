@@ -5,7 +5,7 @@ import { createInertiaApp } from "@inertiajs/react";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { createRoot } from "react-dom/client";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { baselightTheme } from "./theme/DefaultColors"; // Import your custom Material UI theme
+import { baselightTheme } from "./theme/DefaultColors";
 
 const appName = import.meta.env.VITE_APP_NAME || "CitySigns";
 
@@ -27,6 +27,6 @@ createInertiaApp({
         );
     },
     progress: {
-        color: "#4B5563",
+        color: "#FCAE1E",
     },
 });

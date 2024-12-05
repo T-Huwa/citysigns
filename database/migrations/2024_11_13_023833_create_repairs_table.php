@@ -11,7 +11,7 @@ class CreateRepairsTable extends Migration
         Schema::create('repairs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
-            $table->foreignId('sign_id')->constrained()->onDelete('cascade'); 
+            $table->foreignId('sign_id')->nullable()->constrained()->onDelete('cascade');
             $table->enum('status', ['pending', 'in_progress', 'completed', 'cancelled'])->default('pending'); 
             $table->date('completion_date')->nullable();
             $table->text('notes')->nullable();

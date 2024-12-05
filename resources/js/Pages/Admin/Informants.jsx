@@ -17,20 +17,20 @@ import { Head, Link, router } from "@inertiajs/react";
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 
-export default function Users({ users }) {
+export default function Informants({ informants }) {
     const [searchTerm, setSearchTerm] = useState(""); // State to manage search term
 
-    const handleStatusChange = async (userId, currentStatus) => {
+    const handleStatusChange = async (informantId, currentStatus) => {
         const newStatus = currentStatus === "Active" ? "Inactive" : "Active";
 
         try {
             const response = await axios.post(route("status.change"), {
-                user_id: userId,
+                informant_id: informantId,
                 status: newStatus,
             });
 
             console.log(response);
-            alert(`User status updated to ${newStatus}`);
+            alert(`informant status updated to ${newStatus}`);
             router.reload();
         } catch (error) {
             console.error("Error updating status:", error);
@@ -41,23 +41,23 @@ export default function Users({ users }) {
     const getStatusColor = (status) =>
         status === "Active" ? "rgb(50, 190, 50)" : "red";
 
-    const filteredUsers = users.filter((user) =>
-        `${user.name} ${user.email}`
+    const filteredInformants = informants.filter((informant) =>
+        `${informant.name} ${informant.email}`
             .toLowerCase()
             .includes(searchTerm.toLowerCase())
     );
 
     return (
         <AuthenticatedLayout>
-            <Head title="Users" />
+            <Head title="informants" />
             <div className="mx-auto p-4">
                 <div className="flex justify-between items-center mb-4">
                     <h1 className="text-2xl font-bold dark:text-gray-200">
-                        User Management
+                        Informant Management
                     </h1>
                     <div className="flex-1 mx-8">
                         <TextInput
-                            placeholder="Search Users"
+                            placeholder="Search informants"
                             fullWidth
                             margin="normal"
                             value={searchTerm}
@@ -67,7 +67,7 @@ export default function Users({ users }) {
 
                     <Link href="/users/register">
                         <Button variant="contained" color="primary">
-                            Add User
+                            Add Informant
                         </Button>
                     </Link>
                 </div>
@@ -104,60 +104,56 @@ export default function Users({ users }) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {filteredUsers.map((user) => {
-                                if (user.role === "Informant") return;
-                                return (
-                                    <TableRow key={user.id}>
-                                        <TableCell>
-                                            <Typography className="text-gray-500 dark:text-gray-400">
-                                                {user.name}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography className="text-gray-500 dark:text-gray-400">
-                                                {user.email}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography className="text-gray-500 dark:text-gray-400">
-                                                {user.role}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Chip
-                                                label={user.status}
-                                                style={{
-                                                    backgroundColor:
-                                                        getStatusColor(
-                                                            user.status
-                                                        ),
-                                                    color: "white",
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Button
-                                                variant="outlined"
-                                                onClick={() =>
-                                                    handleStatusChange(
-                                                        user.id,
-                                                        user.status
-                                                    )
-                                                }
-                                                color={
-                                                    user.status === "Active"
-                                                        ? "error"
-                                                        : "primary"
-                                                }
-                                            >
-                                                {user.status === "Active"
-                                                    ? "Deactivate"
-                                                    : "Activate"}
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
+                            {filteredInformants.map((informant) => (
+                                <TableRow key={informant.id}>
+                                    <TableCell>
+                                        <Typography className="text-gray-500 dark:text-gray-400">
+                                            {informant.name}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography className="text-gray-500 dark:text-gray-400">
+                                            {informant.email}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography className="text-gray-500 dark:text-gray-400">
+                                            {informant.role}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Chip
+                                            label={informant.status}
+                                            style={{
+                                                backgroundColor: getStatusColor(
+                                                    informant.status
+                                                ),
+                                                color: "white",
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button
+                                            variant="outlined"
+                                            onClick={() =>
+                                                handleStatusChange(
+                                                    informant.id,
+                                                    informant.status
+                                                )
+                                            }
+                                            color={
+                                                informant.status === "Active"
+                                                    ? "error"
+                                                    : "primary"
+                                            }
+                                        >
+                                            {informant.status === "Active"
+                                                ? "Deactivate"
+                                                : "Activate"}
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
                 </TableContainer>

@@ -31,12 +31,10 @@ import {
     IconEye as Eye,
 } from "@tabler/icons-react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import TextInput from "@/Components/TextInput";
 
 export default function Requests({ requests }) {
-    console.log(requests);
-
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
@@ -148,7 +146,10 @@ export default function Requests({ requests }) {
                                             <TableRow key={request.id}>
                                                 <TableCell>
                                                     <Typography className="text-gray-500 dark:text-gray-300">
-                                                        {request.sign.location}
+                                                        {request.sign.road
+                                                            ? request.sign.road
+                                                            : request.sign
+                                                                  .location}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell>
@@ -187,6 +188,12 @@ export default function Requests({ requests }) {
                                                     >
                                                         <Eye size={20} />
                                                     </IconButton>
+                                                    <Link
+                                                        className="ml-3 text-blue-500"
+                                                        href={`/signs/${request.sign_id}`}
+                                                    >
+                                                        View Sign
+                                                    </Link>
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -212,7 +219,9 @@ export default function Requests({ requests }) {
                                     <MapPin size={20} className="mr-2" />
                                     <Typography variant="body1">
                                         Location:{" "}
-                                        {selectedRequest.sign.location}
+                                        {selectedRequest.sign.road
+                                            ? selectedRequest.sign.road
+                                            : selectedRequest.sign.location}
                                     </Typography>
                                 </div>
                                 <div className="flex items-center">
@@ -230,14 +239,14 @@ export default function Requests({ requests }) {
                                 <div className="flex items-center">
                                     <User size={20} className="mr-2" />
                                     <Typography variant="body1">
-                                        Assigned Officer:{" "}
+                                        Assigned Officer:
                                         {selectedRequest.user.name}
                                     </Typography>
                                 </div>
                                 <div className="flex items-center">
                                     <Calendar size={20} className="mr-2" />
                                     <Typography variant="body1">
-                                        Date Requested:{" "}
+                                        Date Requested:
                                         {selectedRequest.created_at}
                                     </Typography>
                                 </div>

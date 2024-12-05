@@ -14,6 +14,7 @@ import {
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, router, usePage } from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
 
 const getDamageColor = (scale) => {
     const colors = {
@@ -116,22 +117,22 @@ export default function RoadSigns({ signs }) {
                         <TableHead>
                             <TableRow>
                                 <TableCell>
-                                    <Typography className="font-bold text-gray-500 dark:text-white">
+                                    <Typography className="font-bold text-gray-900 dark:text-white">
                                         Location
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <Typography className="font-bold text-gray-500 dark:text-white">
+                                    <Typography className="font-bold text-gray-900 dark:text-white">
                                         Sign Type
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <Typography className="font-bold text-gray-500 dark:text-white">
+                                    <Typography className="font-bold text-gray-900 dark:text-white">
                                         Sign Words
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <Typography className="text-xl font-bold text-gray-500 dark:text-white">
+                                    <Typography className="font-bold text-gray-900 dark:text-white">
                                         Damage Scale
                                     </Typography>
                                 </TableCell>
@@ -148,7 +149,9 @@ export default function RoadSigns({ signs }) {
                                 >
                                     <TableCell>
                                         <Typography className="text-gray-500 dark:text-gray-400">
-                                            {sign.location}
+                                            {sign.road
+                                                ? sign.road
+                                                : sign.location}
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
@@ -176,6 +179,27 @@ export default function RoadSigns({ signs }) {
                         </TableBody>
                     </Table>
                 </TableContainer>
+
+                <MapContainer
+                    center={[-11.4389649, 34.0084395] || [0, 0]}
+                    zoom={15}
+                    style={{ height: "300px", width: "100%" }}
+                >
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    />
+                    {filteredSigns.map((sign) => {
+                        if (sign.location && sign.road) {
+                            let location = JSON.parse(sign.location);
+                            return (
+                                <Marker
+                                    position={[location.lat, location.lng]}
+                                />
+                            );
+                        } else return;
+                    })}
+                </MapContainer>
             </div>
         </AuthenticatedLayout>
     );

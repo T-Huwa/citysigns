@@ -10,6 +10,7 @@ import {
     IconTypography,
     IconUser,
     IconUserPlus,
+    IconUserScan,
 } from "@tabler/icons-react";
 
 import { uniqueId } from "lodash";
@@ -37,6 +38,12 @@ const Menuitems = [
         href: "/users",
     },
     {
+        id: uniqueId(),
+        title: "Informants",
+        icon: IconUserScan,
+        href: "/informants",
+    },
+    {
         navlabel: true,
         subheader: "Signs & Repairs",
     },
@@ -48,13 +55,13 @@ const Menuitems = [
     },
     {
         id: uniqueId(),
-        title: "Repairs",
+        title: "Repair Jobs",
         icon: IconHammer,
         href: "/repairs",
     },
     {
         id: uniqueId(),
-        title: "Requests",
+        title: "Damage Assessment",
         icon: IconFile,
         href: "/requests",
     },

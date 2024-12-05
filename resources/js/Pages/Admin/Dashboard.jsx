@@ -1,63 +1,9 @@
 import React from "react";
-import {
-    AppBar,
-    Toolbar,
-    Typography,
-    Container,
-    Grid,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Avatar,
-    Chip,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-} from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import { IconCheck, IconFile, IconMap } from "@tabler/icons-react";
 import { CiWarning } from "react-icons/ci";
-
-// Mock data (replace with actual data in a real application)
-const analyticsSummary = {
-    totalActiveSigns: 1250,
-    damagedSigns: 45,
-    completedRepairs: 30,
-};
-
-/*
-const activeRequests = [
-    { id: 1, signId: "S001", status: "Pending", officer: "John Doe" },
-    { id: 2, signId: "S002", status: "In Progress", officer: "Jane Smith" },
-    { id: 3, signId: "S003", status: "Pending", officer: "Mike Johnson" },
-];*/
-
-const officers = [
-    {
-        id: 1,
-        name: "John Doe",
-        avatar: "/placeholder.svg?height=40&width=40",
-        currentAssignment: "S001",
-    },
-    {
-        id: 2,
-        name: "Jane Smith",
-        avatar: "/placeholder.svg?height=40&width=40",
-        currentAssignment: "S002",
-    },
-    {
-        id: 3,
-        name: "Mike Johnson",
-        avatar: "/placeholder.svg?height=40&width=40",
-        currentAssignment: null,
-    },
-];
 
 const recentMapUpdates = [
     {
@@ -80,7 +26,11 @@ export default function Dashboard({
     totalSigns,
     totalDamaged,
     totalCompleted,
+    assignments,
+    recentUpdates,
 }) {
+    console.log(recentUpdates);
+
     return (
         <AuthenticatedLayout>
             <Head title="Admin Dashboard" />
@@ -196,13 +146,14 @@ export default function Dashboard({
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {officers.map((officer) => (
-                                            <tr key={officer.id}>
+                                        {assignments.map((asgt) => (
+                                            <tr key={asgt.id}>
                                                 <td className="border-t px-4 py-2 flex items-center dark:text-gray-300">
-                                                    {officer.name}
+                                                    {asgt.user.name || "Null"}
                                                 </td>
                                                 <td className="border-t px-4 py-2 dark:text-gray-300">
-                                                    {officer.currentAssignment ||
+                                                    S
+                                                    {asgt.sign_id ||
                                                         "Unassigned"}
                                                 </td>
                                             </tr>
@@ -219,20 +170,34 @@ export default function Dashboard({
                             Recent Map Updates
                         </h6>
                         <ul className="space-y-4">
-                            {recentMapUpdates.map((update) => (
-                                <li
-                                    key={update.id}
-                                    className="flex items-start"
-                                >
-                                    <IconMap className="text-blue-600 mr-2" />
-                                    <div>
-                                        <p className="text-sm font-medium dark:text-gray-300">{`${update.signId} - ${update.status}`}</p>
-                                        <p className="text-xs dark:text-gray-400">
-                                            {update.location}
-                                        </p>
-                                    </div>
-                                </li>
-                            ))}
+                            {recentUpdates.map((update) => {
+                                let status = "N/A";
+                                if (update.created_at === update.updated_at) {
+                                    status = "New Sign Added";
+                                } else if (update.damageScale == 5) {
+                                    status = "Damaged";
+                                } else if (update.damageScale == 1) {
+                                    status = "Maintained";
+                                } else {
+                                    return;
+                                }
+                                return (
+                                    <li
+                                        key={update.id}
+                                        className="flex items-start"
+                                    >
+                                        <Button href={`/signs/${update.id}`}>
+                                            <IconMap className="text-blue-600 mr-2" />
+                                        </Button>
+                                        <div>
+                                            <p className="text-sm font-medium dark:text-gray-300">{`S${update.id} - ${status}`}</p>
+                                            <p className="text-xs dark:text-gray-400">
+                                                {update.road}
+                                            </p>
+                                        </div>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </div>
                 </div>
