@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('updates', function (Blueprint $table) {
             $table->id();
+            $table->string('status')->nullable();
             $table->foreignId('sign_id')->nullable()->constrained('signs')->onDelete('SET NULL');
             $table->foreignId('informant_id')->nullable()->constrained('users')->onDelete('SET NULL');
             $table->integer('damage_scale')->unsigned()->comment('Updated scale from 1 to 5');

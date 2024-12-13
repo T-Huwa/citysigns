@@ -44,6 +44,12 @@ const Menuitems = [
         href: "/informants",
     },
     {
+        id: uniqueId(),
+        title: "Updates",
+        icon: IconFile,
+        href: "/updates",
+    },
+    {
         navlabel: true,
         subheader: "Signs & Repairs",
     },
@@ -55,15 +61,9 @@ const Menuitems = [
     },
     {
         id: uniqueId(),
-        title: "Repair Jobs",
+        title: "Job Cards",
         icon: IconHammer,
-        href: "/repairs",
-    },
-    {
-        id: uniqueId(),
-        title: "Damage Assessment",
-        icon: IconFile,
-        href: "/requests",
+        href: "/job-cards",
     },
 ];
 

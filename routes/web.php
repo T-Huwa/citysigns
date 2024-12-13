@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\JobCardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\SignController;
@@ -68,7 +69,16 @@ Route::get('/requests', function (){
 })->name('requests');
 
 Route::group(['prefix'=> 'updates'], function (){
+    Route::get('/', [UpdateController::class,'index'])->name('updates');
     Route::post('/store', [UpdateController::class,'store'])->name('updates.store');
+    Route::patch('/updates/{update}/approve', [UpdateController::class, 'approve'])->name('updates.approve');
 });
+
+Route::resource('job-cards', JobCardController::class);
+Route::patch('job-cards/{jobCard}/status', [JobCardController::class, 'updateStatus'])
+    ->name('job-cards.update-status');
+Route::get('/job-cards/{jobCard}', [JobCardController::class, 'show'])->name('job-cards.show');
+Route::post('/job-cards/{jobCard}/complete', [JobCardController::class, 'complete'])->name('job-cards.complete');
+
 
 require __DIR__.'/auth.php';

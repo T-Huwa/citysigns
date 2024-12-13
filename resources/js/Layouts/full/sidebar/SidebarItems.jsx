@@ -21,10 +21,18 @@ const SidebarItems = () => {
                         }
                         return <NavGroup item={item} key={item.subheader} />;
                     } else {
-                        if (userRole === "Officer" && item.title === "Users") {
+                        if (userRole
+                            !== "Admin" && item.title === "Users") {
                             return;
                         }
-                        return (
+                        if (userRole
+                            !== "Admin" && item.title === "Updates") {
+                            return;
+                        }
+                        if (userRole
+                            !== "Admin" && item.title === "Informants") {
+                            return;
+                        }                        return (
                             <NavItem
                                 active={url.includes(item.href)}
                                 item={item}

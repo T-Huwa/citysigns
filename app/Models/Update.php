@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Update extends Model
 {
-    protected $fillable = ['sign_id', 'damage_scale', 'notes', 'images', 'informant_id'];
+    protected $fillable = ['sign_id', 'status', 'damage_scale', 'notes', 'images', 'informant_id'];
 
     public function informant()
     {
@@ -16,6 +16,12 @@ class Update extends Model
     public function sign()
     {
         return $this->belongsTo(Sign::class);
+    }
+
+    public function jobCards()
+    {
+        return $this->belongsToMany(JobCard::class, 'job_card_update')
+                    ->withTimestamps();
     }
 
 }

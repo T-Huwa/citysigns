@@ -1,9 +1,9 @@
 import Dropdown from "@/Components/Dropdown";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import { IconUserCircle } from "@tabler/icons-react";
-import { Typography } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 
 export default function InformantLayout({ children }) {
     const user = usePage().props.auth.user;
@@ -16,13 +16,32 @@ export default function InformantLayout({ children }) {
                 <nav className="border-b border-gray-500 bg-white dark:border-gray-700 dark:bg-gray-800">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="flex h-16 justify-between">
-                            <div className="flex items-center">
+                            <div className="flex items-center py-3">
                                 <Typography
                                     variant="h5"
                                     className="dark:text-gray-300"
                                 >
                                     {user.role}
                                 </Typography>
+                                <Divider
+                                    orientation="vertical"
+                                    className="p-3"
+                                />
+                            </div>
+
+                            <div className="flex ml-3 items-center space-x-4">
+                                <Link
+                                    href="#"
+                                    className="text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out"
+                                >
+                                    Home
+                                </Link>
+                                <Link
+                                    href="#"
+                                    className="text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out"
+                                >
+                                    Updates
+                                </Link>
                             </div>
 
                             <div className="flex-1"></div>

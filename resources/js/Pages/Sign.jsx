@@ -2,6 +2,7 @@ import React from "react";
 import { CircularProgress } from "@mui/material";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
+import SignContainer from "@/Components/SignContainer";
 
 export default function Sign({ sign, officers }) {
     if (!sign) {
